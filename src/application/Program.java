@@ -1,28 +1,35 @@
 package application;
 
-import java.io.BufferedWriter;
-import java.io.FileWriter;
-import java.io.IOException;
+import java.io.File;
+import java.util.Scanner;
 
 
 public class Program {
 
 	public static void main(String[] args) {
+		Scanner sc = new Scanner(System.in);
 		
-		String[] lines = new String[] {"Good morning", "Good afternoon", "Good night" };
+		System.out.print("Enter a folder path: ");
+		String  strPath = sc.nextLine();
 		
-		String path = "C:\\Users\\User\\Documents\\Marcos\\Desenvolvimento\\ws-eclipse\\out.txt";
+		File path = new File(strPath);
 		
-		try (BufferedWriter bw = new BufferedWriter(new FileWriter(path,true))) {
-			for (String line : lines) {
-				bw.write(line);
-				bw.newLine();
-			}
-		}
-		catch(IOException e) {
-			System.out.println("Error: " + e.getMessage());
+		File[] folders = path.listFiles(File::isDirectory);
+		System.out.println("FOLDERS:");
+		for (File folder : folders) {
+			System.out.println(folder);
 		}
 		
+		File[] files = path.listFiles(File::isFile);
+		System.out.println("FILES:");
+		for (File file : files) {
+			System.out.println(file);
+		}
+		
+		boolean success =  new File(strPath + "\\subdir").mkdir();
+		System.out.println("Directory created successfully: " + success);
+		
+		sc.close();
 	}
 
 }
